@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import com.appgate.operations.exceptions.OperationWithoutSessionException;
 import com.appgate.operations.model.OperationData;
 import com.appgate.operations.repository.OperationDataRepository;
 import com.appgate.operations.service.impl.OperationServiceImpl;
@@ -26,7 +27,14 @@ public class OperationServiceTest {
 	private OperationDataRepository operationDataRepository;
 	
 	@Test
-	public void shouldAddOperand() {
+	public void shouldStartOperation() {
+		String id =  operationServiceImpl.startOperation();
+		
+		assertThat(id).isNotEmpty();
+	}
+
+	@Test
+	public void shouldAddOperand() throws OperationWithoutSessionException {
 		Vector<BigDecimal> operandList = new Vector<BigDecimal>();
 		operandList.add(new BigDecimal("8"));
 		OperationData operationData = new OperationData("1", operandList);
