@@ -45,7 +45,20 @@ public class OperationServiceImpl implements OperationService {
 		operationDataRepository.save(operationData);
 		
 		return operationData;
+	}
+	
+	@Override
+	public BigDecimal sumOperation(String idSession) throws OperationWithoutSessionException {
+		Optional<OperationData> operationDataOpt = operationDataRepository.findById(idSession);
 		
+		if(operationDataOpt.isEmpty()) {
+			throw new OperationWithoutSessionException();
+		}
+		
+		Vector<BigDecimal> operandList = operationDataOpt.map(OperationData::getOperandList).get();
+		BigDecimal result = operandList.stream().reduce(BigDecimal.ZERO, BigDecimal::add);
+		
+		return result;
 	}
 
 }

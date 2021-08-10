@@ -8,5 +8,7 @@ import com.appgate.operations.model.OperationData;
 public interface OperationService {
 	
 	OperationData addOperand(String idSession, BigDecimal operand) throws OperationWithoutSessionException;
+	
+	BigDecimal sumOperation(String idSession) throws OperationWithoutSessionException;
 
 }

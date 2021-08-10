@@ -46,4 +46,18 @@ public class OperationServiceTest {
 		assertThat(operationDataSave.getOperandList().size()).isEqualTo(2);
 	}
 
+	@Test
+	public void shouldSumOperands() throws OperationWithoutSessionException {
+		Vector<BigDecimal> operandList = new Vector<BigDecimal>();
+		operandList.add(new BigDecimal("8"));
+		operandList.add(new BigDecimal("5"));
+		OperationData operationData = new OperationData("1", operandList);
+		Optional<OperationData> operationDataOpt = Optional.of(operationData);
+		when(operationDataRepository.findById("1")).thenReturn(operationDataOpt);
+		
+		BigDecimal result =  operationServiceImpl.sumOperation("1");
+		
+		assertThat(result).isEqualTo(new BigDecimal("13"));
+	}
+
 }
