@@ -22,4 +22,6 @@ public interface OperationService {
 	BigDecimal exponentiationOperation(String idSession)
 			throws OperationWithoutSessionException, OperationWithoutOperandException;
 
+	String startOperation();
+
 }
