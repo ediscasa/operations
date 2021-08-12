@@ -1,0 +1,12 @@
+version: "3.9"
+services:
+  web:
+    build: .
+    ports:
+      - "8081:8081"
+    environment:
+      SERVER_PORT: 8081
+      SPRING_REDIS_HOST: redis
+      SPRING_REDIS_PORT: 6379
+  redis:
+    image: "redis:alpine"

@@ -29,7 +29,7 @@ public class OperationController {
 	@Autowired
 	private OperationService operationService;
 
-	@GetMapping("startSession")
+	@GetMapping("/startSession")
 	public ResponseEntity<String> startSession() {
 		return new ResponseEntity<String>(operationService.startOperation(), HttpStatus.CREATED);
 	}

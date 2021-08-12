@@ -1,6 +1,7 @@
 package com.appgate.operations.service.impl;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.Vector;
@@ -38,10 +39,23 @@ public class OperationServiceImpl implements OperationService {
 	public OperationData addOperand(String idSession, BigDecimal operand) throws OperationWithoutSessionException {
 		
 		Optional<OperationData> operationDataOpt = operationDataRepository.findById(idSession);
+
+		System.out.println("-------->OperationDataRepository<--------------");
+		System.out.println("---------idSession---------------" + idSession);
 		
 		Vector<BigDecimal> operandList;
 		if( !operationDataOpt.isEmpty()) {
-			operandList = operationDataOpt.map(OperationData::getOperandList).get();
+			
+			System.out.println("-------->operationDataOpt.get()<--------------" + operationDataOpt.get());
+			System.out.println("-------->operationDataOpt.get().getId()<--------------" + operationDataOpt.get().getId());
+			System.out.println("-------->operationDataOpt.get().getOperandList()<--------------" + operationDataOpt.get().getOperandList());
+			System.out.println("-----------------------------------------");
+			if(Objects.nonNull(operationDataOpt.get().getOperandList())) {
+				operandList = operationDataOpt.map(OperationData::getOperandList).get();				
+			} else {
+				operandList = new Vector<BigDecimal>();
+			}
+			System.out.println("------------------siguio-----------------------");
 		} else {
 			throw new OperationWithoutSessionException(NO_SE_ENCONTRO_LA_SESION);
 		}
@@ -49,7 +63,6 @@ public class OperationServiceImpl implements OperationService {
 		operandList.add(operand);
 		OperationData operationData = new OperationData(idSession, operandList);
 		operationDataRepository.save(operationData);
-		
 		return operationData;
 	}
 	
@@ -61,9 +74,11 @@ public class OperationServiceImpl implements OperationService {
 			throw new OperationWithoutSessionException(NO_SE_ENCONTRO_LA_SESION);
 		}
 		
-		Vector<BigDecimal> operandList = operationDataOpt.map(OperationData::getOperandList).get();
-		if(operandList.isEmpty()) {
+		Vector<BigDecimal> operandList;
+		if(Objects.isNull(operationDataOpt.get().getOperandList())) {			
 			throw new OperationWithoutOperandException(NO_SE_ENCONTRO_OPERANDO);
+		} else {
+			operandList = operationDataOpt.map(OperationData::getOperandList).get();
 		}
 		
 		BigDecimal result = operandList.stream().reduce(BigDecimal.ZERO, BigDecimal::add);
@@ -79,10 +94,13 @@ public class OperationServiceImpl implements OperationService {
 			throw new OperationWithoutSessionException(NO_SE_ENCONTRO_LA_SESION);
 		}
 		
-		Vector<BigDecimal> operandList = operationDataOpt.map(OperationData::getOperandList).get();
-		if(operandList.isEmpty()) {
+		Vector<BigDecimal> operandList;
+		if(Objects.isNull(operationDataOpt.get().getOperandList())) {			
 			throw new OperationWithoutOperandException(NO_SE_ENCONTRO_OPERANDO);
-		}		
+		} else {
+			operandList = operationDataOpt.map(OperationData::getOperandList).get();
+		}
+		
 		BigDecimal result = operandList.stream().reduce(BigDecimal.ONE, BigDecimal::multiply);
 		
 		return result;
@@ -96,12 +114,14 @@ public class OperationServiceImpl implements OperationService {
 			throw new OperationWithoutSessionException(NO_SE_ENCONTRO_LA_SESION);
 		}
 		
-		Vector<BigDecimal> operandList = operationDataOpt.map(OperationData::getOperandList).get();
-		Optional<BigDecimal> result = operandList.stream().reduce(BigDecimal::divide);
-		
-		if(result.isEmpty()) {
+		Vector<BigDecimal> operandList;
+		if(Objects.isNull(operationDataOpt.get().getOperandList())) {			
 			throw new OperationWithoutOperandException(NO_SE_ENCONTRO_OPERANDO);
+		} else {
+			operandList = operationDataOpt.map(OperationData::getOperandList).get();
 		}
+		
+		Optional<BigDecimal> result = operandList.stream().reduce(BigDecimal::divide);
 		
 		return result.get();
 	}
@@ -114,12 +134,14 @@ public class OperationServiceImpl implements OperationService {
 			throw new OperationWithoutSessionException(NO_SE_ENCONTRO_LA_SESION);
 		}
 		
-		Vector<BigDecimal> operandList = operationDataOpt.map(OperationData::getOperandList).get();
-		Optional<BigDecimal> result = operandList.stream().reduce(BigDecimal::subtract);
-		
-		if(result.isEmpty()) {
+		Vector<BigDecimal> operandList;
+		if(Objects.isNull(operationDataOpt.get().getOperandList())) {			
 			throw new OperationWithoutOperandException(NO_SE_ENCONTRO_OPERANDO);
+		} else {
+			operandList = operationDataOpt.map(OperationData::getOperandList).get();
 		}
+		
+		Optional<BigDecimal> result = operandList.stream().reduce(BigDecimal::subtract);
 		
 		return result.get();
 	}
@@ -132,10 +154,13 @@ public class OperationServiceImpl implements OperationService {
 			throw new OperationWithoutSessionException(NO_SE_ENCONTRO_LA_SESION);
 		}
 		
-		Vector<BigDecimal> operandList = operationDataOpt.map(OperationData::getOperandList).get();
-		if(operandList.isEmpty()) {
+		Vector<BigDecimal> operandList;
+		if(Objects.isNull(operationDataOpt.get().getOperandList())) {			
 			throw new OperationWithoutOperandException(NO_SE_ENCONTRO_OPERANDO);
-		}		
+		} else {
+			operandList = operationDataOpt.map(OperationData::getOperandList).get();
+		}	
+		
 		Optional<BigDecimal> result = operandList.stream().reduce((subtotal, element) -> subtotal.pow(element.intValue()));
 		
 		return result.get();
