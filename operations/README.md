@@ -6,6 +6,8 @@
 * [Docker](https://www.docker.com/products/docker-desktop) 
 * [Gradle 7](https://gradle.org/) 
 
+## Important: Before executing the commands, you must enter the "operation" folder, so that they are executed successfully
+
 ### Build
 Execute in command line
 
@@ -69,5 +71,5 @@ curl --location --request GET "http://localhost:8081/operation/performOperation?
 
 # Architecture Diagram
 
-[![N|Solid](https://github.com/odinds/app-gate-operations-test/blob/feature/test/assets/Diagram%20architecture.jpg)](https://github.com/odinds/app-gate-operations-test/blob/feature/test/assets/architecutre%20Diagram.png)
+[![N|Solid](https://github.com/ediscasa/operations/blob/master/operations/doc/Arquitectura.png)](https://github.com/ediscasa/operations/blob/master/operations/doc/Arquitectura.png)
 
